@@ -62,6 +62,7 @@ const schema = a.schema({
       color: a.string(),
       icon: a.string(),
       transactions: a.hasMany('Transaction', 'categoryId'),
+      recurringTransactions: a.hasMany('RecurringTransaction', 'categoryId'),
     })
     .authorization((allow) => [
       allow.owner(),
