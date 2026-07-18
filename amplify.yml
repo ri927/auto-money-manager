@@ -1,0 +1,112 @@
+version: 1
+# AWS Amplify Hosting ビルド設定
+# Next.js 16 + Amplify Gen 2 アプリケーション用
+
+# バックエンドフェーズ: Amplify Gen 2 バックエンドのデプロイ
+backend:
+  phases:
+    build:
+      commands:
+        # Amplify Gen 2 バックエンド（Auth, Data, Storage等）のデプロイ
+        - npm install --cache .npm --prefer-offline
+        - npx ampx pipeline-deploy --branch $AWS_BRANCH --app-id $AWS_APP_ID
+
+# フロントエンドフェーズ: Next.js アプリケーションのビルド
+frontend:
+  phases:
+    # 1. ビルド前処理
+    preBuild:
+      commands:
+        # Node.js バージョン確認
+        - node --version
+        - npm --version
+        # 依存関係のインストール（高速化のためキャッシュ使用）
+        - npm install --cache .npm --prefer-offline
+        # Amplify outputs の生成（バックエンド接続情報）
+        - npx ampx generate outputs --branch $AWS_BRANCH --app-id $AWS_APP_ID
+
+    # 2. ビルド実行
+    build:
+      commands:
+        # Next.js アプリケーションのビルド
+        - npm run build
+
+  # 3. ビルド成果物の設定
+  artifacts:
+    # Next.js の出力ディレクトリ
+    baseDirectory: .next
+    files:
+      # すべてのビルド成果物を含める
+      - '**/*'
+
+  # 4. キャッシュ設定（ビルド高速化）
+  cache:
+    paths:
+      # Node.js モジュールのキャッシュ
+      - node_modules/**/*
+      # npm キャッシュ
+      - .npm/**/*
+      # Next.js ビルドキャッシュ
+      - .next/cache/**/*
+
+# カスタムヘッダー設定
+customHeaders:
+  # セキュリティヘッダー
+  - pattern: '**/*'
+    headers:
+      # XSS 対策
+      - key: 'X-Content-Type-Options'
+        value: 'nosniff'
+      # クリックジャッキング対策
+      - key: 'X-Frame-Options'
+        value: 'DENY'
+      # XSS フィルター有効化
+      - key: 'X-XSS-Protection'
+        value: '1; mode=block'
+      # HTTPS 強制（本番環境）
+      - key: 'Strict-Transport-Security'
+        value: 'max-age=31536000; includeSubDomains'
+      # Referrer ポリシー
+      - key: 'Referrer-Policy'
+        value: 'strict-origin-when-cross-origin'
+      # Content Security Policy (CSP)
+      - key: 'Content-Security-Policy'
+        value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://*.amplifyapp.com https://*.amazonaws.com https://cognito-idp.*.amazonaws.com https://*.appsync-api.*.amazonaws.com"
+
+  # 静的アセットのキャッシュ制御
+  - pattern: '**/*.js'
+    headers:
+      - key: 'Cache-Control'
+        value: 'public, max-age=31536000, immutable'
+  - pattern: '**/*.css'
+    headers:
+      - key: 'Cache-Control'
+        value: 'public, max-age=31536000, immutable'
+  - pattern: '**/*.svg'
+    headers:
+      - key: 'Cache-Control'
+        value: 'public, max-age=31536000, immutable'
+  - pattern: '**/*.png'
+    headers:
+      - key: 'Cache-Control'
+        value: 'public, max-age=31536000, immutable'
+  - pattern: '**/*.jpg'
+    headers:
+      - key: 'Cache-Control'
+        value: 'public, max-age=31536000, immutable'
+  - pattern: '**/*.webp'
+    headers:
+      - key: 'Cache-Control'
+        value: 'public, max-age=31536000, immutable'
+
+  # HTML ファイルはキャッシュしない（常に最新を取得）
+  - pattern: '**/*.html'
+    headers:
+      - key: 'Cache-Control'
+        value: 'no-cache, no-store, must-revalidate'
+
+# 環境変数（Amplify Console で設定）
+# 以下は例です。実際の値は Amplify Console > App settings > Environment variables で設定してください
+# env:
+#   - NEXT_PUBLIC_APP_NAME: "自動家計簿管理アプリ"
+#   - NEXT_PUBLIC_APP_VERSION: "1.0.0"
