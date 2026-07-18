@@ -1,0 +1,5 @@
+- generic [active] [ref=f1e1]:
+  - paragraph [ref=f1e5]: 読み込み中...
+  - button "Open Next.js Dev Tools" [ref=f1e11] [cursor=pointer]:
+    - img [ref=f1e12]
+  - alert [ref=f1e15]

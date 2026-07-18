@@ -1,0 +1,28 @@
+- generic [ref=e1]:
+  - button "Open Next.js Dev Tools" [ref=e11] [cursor=pointer]:
+    - img [ref=e12]
+  - alert [ref=e15]: 家計簿アプリ | Auto Money Manager
+  - main [ref=e54]:
+    - paragraph [ref=e602]: 読み込み中...
+  - navigation [ref=e577]:
+    - generic [ref=e578]:
+      - link "ホーム" [ref=e579] [cursor=pointer]:
+        - /url: /dashboard
+        - img [ref=e580]
+        - generic [ref=e583]: ホーム
+      - link "入力" [active] [ref=e584] [cursor=pointer]:
+        - /url: /dashboard/transactions/new
+        - img [ref=e585]
+        - generic [ref=e587]: 入力
+      - link "一覧" [ref=e588] [cursor=pointer]:
+        - /url: /dashboard/transactions
+        - img [ref=e589]
+        - generic [ref=e590]: 一覧
+      - link "レポート" [ref=e591] [cursor=pointer]:
+        - /url: /dashboard/reports
+        - img [ref=e592]
+        - generic [ref=e594]: レポート
+      - link "メニュー" [ref=e595] [cursor=pointer]:
+        - /url: /dashboard/menu
+        - img [ref=e596]
+        - generic [ref=e597]: メニュー

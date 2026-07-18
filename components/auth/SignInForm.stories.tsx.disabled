@@ -1,0 +1,48 @@
+import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import React, { createContext } from 'react';
+import { SignInForm } from './SignInForm';
+
+// AuthContextのモック
+interface AuthContextType {
+  user: any | null;
+  loading: boolean;
+  signOut: () => Promise<void>;
+  refreshAuth: () => Promise<void>;
+}
+
+const AuthContext = createContext<AuthContextType>({
+  user: null,
+  loading: false,
+  signOut: async () => {},
+  refreshAuth: async () => {},
+});
+
+const meta = {
+  component: SignInForm,
+  tags: ['autodocs'],
+  parameters: {
+    layout: 'centered',
+  },
+  decorators: [
+    (Story) => (
+      <AuthContext.Provider
+        value={{
+          user: null,
+          loading: false,
+          signOut: async () => {},
+          refreshAuth: async () => {},
+        }}
+      >
+        <Story />
+      </AuthContext.Provider>
+    ),
+  ],
+} satisfies Meta<typeof SignInForm>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+/**
+ * デフォルトのログインフォーム表示
+ */
+export const Default: Story = {};

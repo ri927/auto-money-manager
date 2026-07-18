@@ -1,0 +1,105 @@
+- generic [active] [ref=f3e1]:
+  - generic [ref=f3e2]:
+    - navigation [ref=f3e3]:
+      - generic [ref=f3e4]:
+        - link "家計簿アプリ" [ref=f3e5] [cursor=pointer]:
+          - /url: /dashboard
+        - generic [ref=f3e6]:
+          - link "ホーム" [ref=f3e7] [cursor=pointer]:
+            - /url: /dashboard
+            - img [ref=f3e8]
+            - text: ホーム
+          - link "収支入力" [ref=f3e11] [cursor=pointer]:
+            - /url: /dashboard/transactions/new
+            - img [ref=f3e12]
+            - text: 収支入力
+          - link "収支一覧" [ref=f3e14] [cursor=pointer]:
+            - /url: /dashboard/transactions
+            - img [ref=f3e15]
+            - text: 収支一覧
+          - link "カテゴリ" [ref=f3e16] [cursor=pointer]:
+            - /url: /dashboard/categories
+            - img [ref=f3e17]
+            - text: カテゴリ
+          - link "家族" [ref=f3e20] [cursor=pointer]:
+            - /url: /dashboard/family
+            - img [ref=f3e21]
+            - text: 家族
+          - link "レポート" [ref=f3e26] [cursor=pointer]:
+            - /url: /dashboard/reports
+            - img [ref=f3e27]
+            - text: レポート
+      - button "ログアウト" [ref=f3e29]:
+        - img
+        - text: ログアウト
+    - main [ref=f3e30]:
+      - generic [ref=f3e31]:
+        - generic [ref=f3e32]:
+          - heading "ダッシュボード" [level=1] [ref=f3e33]
+          - paragraph [ref=f3e34]: 家計の状況を一目で確認
+        - generic [ref=f3e35]:
+          - generic [ref=f3e36]:
+            - generic [ref=f3e37]:
+              - generic [ref=f3e38]: 今月の収入
+              - img [ref=f3e39]
+            - generic [ref=f3e42]:
+              - generic [ref=f3e43]: ¥350,000
+              - paragraph [ref=f3e44]: 前月比 +12%
+          - generic [ref=f3e45]:
+            - generic [ref=f3e46]:
+              - generic [ref=f3e47]: 今月の支出
+              - img [ref=f3e48]
+            - generic [ref=f3e51]:
+              - generic [ref=f3e52]: ¥245,000
+              - paragraph [ref=f3e53]: 前月比 -5%
+          - generic [ref=f3e54]:
+            - generic [ref=f3e55]:
+              - generic [ref=f3e56]: 収支
+              - img [ref=f3e57]
+            - generic [ref=f3e60]:
+              - generic [ref=f3e61]: ¥105,000
+              - paragraph [ref=f3e62]: 前月比 +25%
+        - generic [ref=f3e63]:
+          - generic [ref=f3e64]:
+            - generic [ref=f3e65]:
+              - generic [ref=f3e66]: 最近の取引
+              - generic [ref=f3e67]: 直近5件の取引履歴
+            - generic [ref=f3e69]:
+              - generic [ref=f3e70]:
+                - generic [ref=f3e71]:
+                  - paragraph [ref=f3e72]: スーパーマーケット
+                  - paragraph [ref=f3e73]: 2024/07/03
+                - paragraph [ref=f3e74]: "-¥5,432"
+              - generic [ref=f3e75]:
+                - generic [ref=f3e76]:
+                  - paragraph [ref=f3e77]: 給料
+                  - paragraph [ref=f3e78]: 2024/07/01
+                - paragraph [ref=f3e79]: +¥350,000
+          - generic [ref=f3e80]:
+            - generic [ref=f3e81]:
+              - generic [ref=f3e82]: カテゴリ別支出
+              - generic [ref=f3e83]: 今月の支出内訳
+            - generic [ref=f3e85]:
+              - generic [ref=f3e86]:
+                - generic [ref=f3e89]: 食費
+                - generic [ref=f3e90]: ¥85,000
+              - generic [ref=f3e91]:
+                - generic [ref=f3e94]: 光熱費
+                - generic [ref=f3e95]: ¥25,000
+              - generic [ref=f3e96]:
+                - generic [ref=f3e99]: 交通費
+                - generic [ref=f3e100]: ¥15,000
+        - generic [ref=f3e101]:
+          - generic [ref=f3e103]:
+            - generic [ref=f3e104]: 🎉
+            - text: はじめに
+          - generic [ref=f3e105]:
+            - paragraph [ref=f3e106]: 家計簿アプリへようこそ！以下の手順で始めましょう：
+            - list [ref=f3e107]:
+              - listitem [ref=f3e108]: 家族グループを作成または参加
+              - listitem [ref=f3e109]: カテゴリを設定
+              - listitem [ref=f3e110]: 収支を入力して記録開始
+              - listitem [ref=f3e111]: メール転送設定で自動記録
+  - button "Open Next.js Dev Tools" [ref=f3e117] [cursor=pointer]:
+    - img [ref=f3e118]
+  - alert [ref=f3e121]

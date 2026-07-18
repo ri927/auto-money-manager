@@ -1,0 +1,18 @@
+import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import { SignUpForm } from './SignUpForm';
+
+const meta = {
+  component: SignUpForm,
+  tags: ['autodocs'],
+  parameters: {
+    layout: 'centered',
+  },
+} satisfies Meta<typeof SignUpForm>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+/**
+ * デフォルトの新規登録フォーム表示
+ */
+export const Default: Story = {};

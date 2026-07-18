@@ -1,0 +1,29 @@
+- generic [active] [ref=f4e1]:
+  - main [ref=f4e3]:
+    - heading "家族で使う 自動家計簿アプリ" [level=1] [ref=f4e4]:
+      - text: 家族で使う
+      - text: 自動家計簿アプリ
+    - paragraph [ref=f4e5]: クレジットカードの利用通知メールを自動で解析。 家族みんなで収支を共有して、賢くお金を管理しましょう。
+    - generic [ref=f4e6]:
+      - link "無料で始める" [ref=f4e7] [cursor=pointer]:
+        - /url: /auth/signup
+        - button "無料で始める" [ref=f4e8]
+      - link "ログイン" [ref=f4e9] [cursor=pointer]:
+        - /url: /auth/signin
+        - button "ログイン" [ref=f4e10]
+    - generic [ref=f4e11]:
+      - generic [ref=f4e12]:
+        - generic [ref=f4e13]: 📧
+        - heading "メール自動解析" [level=3] [ref=f4e14]
+        - paragraph [ref=f4e15]: クレジットカード利用通知を自動で取り込み
+      - generic [ref=f4e16]:
+        - generic [ref=f4e17]: 🤖
+        - heading "AI自動分類" [level=3] [ref=f4e18]
+        - paragraph [ref=f4e19]: 支出を自動でカテゴリ分類して管理
+      - generic [ref=f4e20]:
+        - generic [ref=f4e21]: 👨‍👩‍👧‍👦
+        - heading "家族で共有" [level=3] [ref=f4e22]
+        - paragraph [ref=f4e23]: 家族全員で収支を確認・管理
+  - button "Open Next.js Dev Tools" [ref=f4e29] [cursor=pointer]:
+    - img [ref=f4e30]
+  - alert [ref=f4e33]

@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx shadcn@latest add:*)",
+      "Bash(tree:*)",
+      "mcp__figma__use_figma",
+      "mcp__Playwright__browser_take_screenshot",
+      "Bash(npm run storybook:*)",
+      "Bash(lsof:*)",
+      "Bash(npm run build:*)",
+      "Bash(grep:*)",
+      "mcp__Playwright__browser_navigate",
+      "mcp__Playwright__browser_evaluate",
+      "mcp__Playwright__browser_resize",
+      "mcp__Playwright__browser_snapshot",
+      "mcp__Playwright__browser_console_messages",
+      "Bash(npm run lint:*)",
+      "Bash(npx vitest:*)",
+      "Bash(find:*)",
+      "Bash(git rev-parse:*)",
+      "Bash(git init:*)",
+      "Bash(git add:*)"
+    ]
+  }
+}

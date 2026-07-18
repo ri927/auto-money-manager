@@ -1,0 +1,19 @@
+# Amplify generated files
+.amplify/
+amplify_outputs.json
+
+# Build outputs
+.next/
+out/
+dist/
+build/
+
+# Dependencies
+node_modules/
+
+# Storybook
+storybook-static/
+
+# CDK
+*.d.ts
+cdk.out/

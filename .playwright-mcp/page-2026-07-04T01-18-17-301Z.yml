@@ -1,0 +1,27 @@
+- generic [active] [ref=f5e1]:
+  - generic [ref=f5e3]:
+    - generic [ref=f5e4]:
+      - generic [ref=f5e5]:
+        - generic [ref=f5e6]: 新規登録
+        - generic [ref=f5e7]: アカウントを作成して家計簿の管理を始めましょう
+      - generic [ref=f5e9]:
+        - generic [ref=f5e10]:
+          - generic [ref=f5e11]: メールアドレス
+          - textbox "メールアドレス" [ref=f5e12]:
+            - /placeholder: example@email.com
+        - generic [ref=f5e13]:
+          - generic [ref=f5e14]: パスワード
+          - textbox "パスワード" [ref=f5e15]:
+            - /placeholder: 8文字以上
+          - paragraph [ref=f5e16]: パスワードは8文字以上で、大文字、小文字、数字を含める必要があります
+        - button "新規登録" [ref=f5e17]
+    - paragraph [ref=f5e18]:
+      - text: 既にアカウントをお持ちの方は
+      - link "ログイン" [ref=f5e19] [cursor=pointer]:
+        - /url: /auth/signin
+    - paragraph [ref=f5e20]:
+      - link "← ホームに戻る" [ref=f5e21] [cursor=pointer]:
+        - /url: /
+  - button "Open Next.js Dev Tools" [ref=f5e27] [cursor=pointer]:
+    - img [ref=f5e28]
+  - alert [ref=f5e31]
