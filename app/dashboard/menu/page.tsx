@@ -68,7 +68,7 @@ export default function MenuPage() {
           const Icon = item.icon;
 
           return (
-            <Link key={item.href} href={item.href}>
+            <Link key={item.href} href={item.href} prefetch={true}>
               <Card className="shadow-sm border-none hover:shadow-md transition-shadow">
                 <CardContent className="p-3 md:p-4">
                   <div className="flex items-center justify-between">

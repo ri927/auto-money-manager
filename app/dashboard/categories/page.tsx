@@ -8,7 +8,7 @@
 'use client';
 
 // React フック
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 // Amplify Data クライアント
 import { generateClient } from 'aws-amplify/data';
@@ -80,7 +80,7 @@ export default function CategoriesPage() {
   /**
    * カテゴリ一覧を取得
    */
-  const fetchCategories = async (familyId: string) => {
+  const fetchCategories = useCallback(async (familyId: string) => {
     try {
       const { data, errors } = await client.models.Category.list({
         filter: {
@@ -97,7 +97,7 @@ export default function CategoriesPage() {
       console.error('Error fetching categories:', err);
       throw err;
     }
-  };
+  }, []);
 
   /**
    * ユーザーの所属グループとカテゴリを取得
@@ -137,26 +137,26 @@ export default function CategoriesPage() {
   /**
    * カテゴリ追加ボタンのハンドラー
    */
-  const handleAdd = () => {
+  const handleAdd = useCallback(() => {
     setEditingCategory(undefined);
     setModalOpen(true);
-  };
+  }, []);
 
   /**
    * カテゴリ編集ボタンのハンドラー
    */
-  const handleEdit = (category: Schema['Category']['type']) => {
+  const handleEdit = useCallback((category: Schema['Category']['type']) => {
     setEditingCategory(category);
     setModalOpen(true);
-  };
+  }, []);
 
   /**
    * カテゴリ削除ボタンのハンドラー
    */
-  const handleDelete = (category: Schema['Category']['type']) => {
+  const handleDelete = useCallback((category: Schema['Category']['type']) => {
     setDeletingCategory(category);
     setDeleteDialogOpen(true);
-  };
+  }, []);
 
   /**
    * 削除確認ハンドラー
@@ -206,12 +206,12 @@ export default function CategoriesPage() {
   /**
    * モーダル保存成功時のコールバック
    */
-  const handleSuccess = async () => {
+  const handleSuccess = useCallback(async () => {
     // カテゴリ一覧を再取得
     if (familyId) {
       await fetchCategories(familyId);
     }
-  };
+  }, [familyId, fetchCategories]);
 
   // ローディング中の表示
   if (loading) {

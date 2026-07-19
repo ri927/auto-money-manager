@@ -147,7 +147,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
       >
         {/* ヘッダー */}
         <div className="flex h-16 items-center justify-between px-6 border-b border-sidebar-border">
-          <Link href="/dashboard" className="text-lg font-bold text-white" onClick={handleNavClick}>
+          <Link href="/dashboard" prefetch={true} className="text-lg font-bold text-white" onClick={handleNavClick}>
             家計簿アプリ
           </Link>
 
@@ -174,6 +174,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                 key={item.href}
                 href={item.href}
                 onClick={handleNavClick}
+                prefetch={true}
                 className={cn(
                   'flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors',
                   isActive

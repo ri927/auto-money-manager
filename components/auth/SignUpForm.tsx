@@ -85,10 +85,20 @@ export function SignUpForm() {
       // コンソールにエラーを出力（デバッグ用）
       console.error('Sign up error:', err);
 
-      // エラーメッセージを設定（err.message があればそれを使用、なければデフォルトメッセージ）
-      setError(
-        err.message || 'サインアップに失敗しました。もう一度お試しください。'
-      );
+      // エラーの種類に応じてメッセージを設定
+      let errorMessage = 'サインアップに失敗しました。';
+
+      if (err.name === 'UsernameExistsException') {
+        errorMessage = 'このメールアドレスは既に登録されています。ログインしてください。';
+      } else if (err.name === 'InvalidPasswordException') {
+        errorMessage = 'パスワードが条件を満たしていません。8文字以上で、大文字、小文字、数字、記号を含める必要があります。';
+      } else if (err.name === 'InvalidParameterException') {
+        errorMessage = 'メールアドレスまたはパスワードの形式が正しくありません。';
+      } else if (err.message) {
+        errorMessage = `サインアップに失敗しました: ${err.message}`;
+      }
+
+      setError(errorMessage);
     } finally {
       // 処理完了後、必ずローディングを終了
       setLoading(false);
@@ -130,10 +140,20 @@ export function SignUpForm() {
       // コンソールにエラーを出力（デバッグ用）
       console.error('Confirmation error:', err);
 
-      // エラーメッセージを設定
-      setError(
-        err.message || '確認コードが正しくありません。もう一度お試しください。'
-      );
+      // エラーの種類に応じてメッセージを設定
+      let errorMessage = '確認に失敗しました。';
+
+      if (err.name === 'CodeMismatchException') {
+        errorMessage = '確認コードが正しくありません。もう一度お試しください。';
+      } else if (err.name === 'ExpiredCodeException') {
+        errorMessage = '確認コードの有効期限が切れています。新しいコードを再送信してください。';
+      } else if (err.name === 'LimitExceededException') {
+        errorMessage = '試行回数が多すぎます。しばらく待ってから再度お試しください。';
+      } else if (err.message) {
+        errorMessage = `確認に失敗しました: ${err.message}`;
+      }
+
+      setError(errorMessage);
     } finally {
       // 処理完了後、必ずローディングを終了
       setLoading(false);

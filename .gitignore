@@ -47,3 +47,9 @@ amplify-outputs-*
 
 *storybook.log
 storybook-static
+
+# Claude Code settings
+.claude/settings.local.json
+
+# Playwright MCP logs
+.playwright-mcp/

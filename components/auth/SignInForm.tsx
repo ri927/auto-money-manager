@@ -16,8 +16,8 @@ import { useState } from 'react';
 // Next.jsのルーティングフック（画面遷移に使用）
 import { useRouter } from 'next/navigation';
 
-// AWS Amplify の認証機能（サインイン関数）をインポート
-import { signIn } from 'aws-amplify/auth';
+// AWS Amplify の認証機能（サインイン関数、パスワード変更関数）をインポート
+import { signIn, confirmSignIn } from 'aws-amplify/auth';
 
 // 認証コンテキストフック（認証状態の更新に使用）
 import { useAuth } from '@/contexts/AuthContext';
@@ -52,6 +52,9 @@ export function SignInForm() {
   // パスワードの入力値を管理
   const [password, setPassword] = useState('');
 
+  // 新しいパスワードの入力値を管理（FORCE_CHANGE_PASSWORD の場合に使用）
+  const [newPassword, setNewPassword] = useState('');
+
   // エラーメッセージを管理（エラーがない場合は空文字）
   const [error, setError] = useState('');
 
@@ -60,6 +63,52 @@ export function SignInForm() {
 
   // パスワード表示/非表示の状態を管理（デフォルトは非表示: false）
   const [showPassword, setShowPassword] = useState(false);
+
+  // 新しいパスワード表示/非表示の状態を管理
+  const [showNewPassword, setShowNewPassword] = useState(false);
+
+  // パスワード変更が必要かどうかを管理
+  const [needsPasswordChange, setNeedsPasswordChange] = useState(false);
+
+  /**
+   * 新しいパスワードを設定するハンドラー関数
+   *
+   * FORCE_CHANGE_PASSWORD 状態の場合に使用
+   */
+  const handlePasswordChange = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+
+    try {
+      // 新しいパスワードで confirmSignIn を実行
+      await confirmSignIn({
+        challengeResponse: newPassword,
+      });
+
+      // 認証状態を更新
+      await refreshAuth();
+
+      // ダッシュボードページへ遷移
+      router.push('/dashboard');
+    } catch (err: any) {
+      console.error('Password change error:', err);
+
+      let errorMessage = 'パスワードの変更に失敗しました。';
+
+      if (err.name === 'InvalidPasswordException') {
+        errorMessage = 'パスワードが条件を満たしていません。8文字以上で、大文字、小文字、数字、記号を含める必要があります。';
+      } else if (err.name === 'InvalidParameterException') {
+        errorMessage = 'パスワードの形式が正しくありません。';
+      } else if (err.message) {
+        errorMessage = `パスワードの変更に失敗しました: ${err.message}`;
+      }
+
+      setError(errorMessage);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   /**
    * フォーム送信時のハンドラー関数
@@ -87,30 +136,132 @@ export function SignInForm() {
     try {
       // AWS Amplify の signIn 関数を実行してログイン処理
       // username にメールアドレスを指定（Cognito の設定による）
-      await signIn({
+      const { nextStep } = await signIn({
         username: email,
         password,
       });
+
+      // nextStep を確認して、追加の処理が必要かチェック
+      if (nextStep.signInStep === 'CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED') {
+        // パスワード変更が必要な場合
+        setNeedsPasswordChange(true);
+        setLoading(false);
+        return;
+      }
 
       // 認証状態を更新（AuthContext に現在のユーザー情報を設定）
       await refreshAuth();
 
       // ログイン成功後、ダッシュボードページへ遷移
       router.push('/dashboard');
-    } catch (err) {
+    } catch (err: any) {
       // エラーが発生した場合の処理
 
       // コンソールにエラー内容を出力（デバッグ用）
       console.error('Sign in error:', err);
 
-      // ユーザーにわかりやすいエラーメッセージを設定
-      setError('ログインに失敗しました。メールアドレスとパスワードを確認してください。');
+      // エラーの種類に応じてメッセージを設定
+      let errorMessage = 'ログインに失敗しました。';
+
+      if (err.name === 'UserNotFoundException') {
+        errorMessage = 'このメールアドレスは登録されていません。';
+      } else if (err.name === 'NotAuthorizedException') {
+        errorMessage = 'メールアドレスまたはパスワードが正しくありません。';
+      } else if (err.name === 'UserNotConfirmedException') {
+        errorMessage = 'メールアドレスの確認が完了していません。受信したメールから確認を完了してください。';
+      } else if (err.name === 'PasswordResetRequiredException') {
+        errorMessage = 'パスワードのリセットが必要です。';
+      } else if (err.name === 'InvalidParameterException') {
+        errorMessage = 'メールアドレスまたはパスワードの形式が正しくありません。';
+      } else if (err.name === 'TooManyRequestsException' || err.name === 'LimitExceededException') {
+        errorMessage = 'ログイン試行回数が多すぎます。しばらく待ってから再度お試しください。';
+      } else if (err.message) {
+        // その他のエラーの場合はメッセージを表示
+        errorMessage = `ログインに失敗しました: ${err.message}`;
+      }
+
+      setError(errorMessage);
     } finally {
       // try/catch の結果にかかわらず、必ず実行される処理
       // ローディング状態を false に戻す
       setLoading(false);
     }
   };
+
+  /**
+   * パスワード変更が必要な場合の画面
+   */
+  if (needsPasswordChange) {
+    return (
+      <Card className="w-full max-w-md">
+        <CardHeader>
+          <CardTitle>パスワードの変更</CardTitle>
+          <CardDescription>
+            初回ログインのため、新しいパスワードを設定してください
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handlePasswordChange} className="space-y-4">
+            {error && (
+              <div className="rounded-md bg-red-50 p-3 text-sm text-red-800">
+                {error}
+              </div>
+            )}
+
+            {/* メールアドレス表示（読み取り専用） */}
+            <div className="space-y-2">
+              <Label htmlFor="email-display">メールアドレス</Label>
+              <Input
+                id="email-display"
+                type="email"
+                value={email}
+                disabled
+                className="bg-gray-50"
+              />
+            </div>
+
+            {/* 新しいパスワード入力フィールド */}
+            <div className="space-y-2">
+              <Label htmlFor="new-password">新しいパスワード</Label>
+              <div className="relative">
+                <Input
+                  id="new-password"
+                  type={showNewPassword ? "text" : "password"}
+                  placeholder="新しいパスワードを入力"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  required
+                  disabled={loading}
+                  className="pr-10"
+                  minLength={8}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowNewPassword(!showNewPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none"
+                  disabled={loading}
+                  aria-label={showNewPassword ? "パスワードを隠す" : "パスワードを表示"}
+                >
+                  {showNewPassword ? (
+                    <EyeOff className="h-5 w-5" />
+                  ) : (
+                    <Eye className="h-5 w-5" />
+                  )}
+                </button>
+              </div>
+              <p className="text-xs text-gray-500">
+                パスワードは8文字以上で、大文字、小文字、数字、記号を含める必要があります
+              </p>
+            </div>
+
+            <Button type="submit" className="w-full" disabled={loading}>
+              {loading ? 'パスワード変更中...' : 'パスワードを変更してログイン'}
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
+    );
+  }
 
   /**
    * JSXを返す: UIの構造を定義

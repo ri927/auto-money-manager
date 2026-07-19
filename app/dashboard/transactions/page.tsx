@@ -8,7 +8,7 @@
 'use client';
 
 // React フック
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 // Next.js コンポーネント
 import Link from 'next/link';
@@ -140,7 +140,7 @@ export default function TransactionsPage() {
   /**
    * 収支一覧を取得
    */
-  const fetchTransactions = async (familyId: string) => {
+  const fetchTransactions = useCallback(async (familyId: string) => {
     try {
       const { data, errors } = await client.models.Transaction.list({
         filter: {
@@ -162,32 +162,32 @@ export default function TransactionsPage() {
       console.error('Error fetching transactions:', err);
       throw err;
     }
-  };
+  }, []);
 
   /**
    * 編集ボタンのハンドラー
    */
-  const handleEdit = (transaction: Schema['Transaction']['type']) => {
+  const handleEdit = useCallback((transaction: Schema['Transaction']['type']) => {
     setEditingTransaction(transaction);
     setEditDialogOpen(true);
-  };
+  }, []);
 
   /**
    * 編集更新後のハンドラー
    */
-  const handleTransactionUpdated = async () => {
+  const handleTransactionUpdated = useCallback(async () => {
     if (familyId) {
       await fetchTransactions(familyId);
     }
-  };
+  }, [familyId, fetchTransactions]);
 
   /**
    * 削除ボタンのハンドラー
    */
-  const handleDelete = (transaction: Schema['Transaction']['type']) => {
+  const handleDelete = useCallback((transaction: Schema['Transaction']['type']) => {
     setDeletingTransaction(transaction);
     setDeleteDialogOpen(true);
-  };
+  }, []);
 
   /**
    * 削除確認ハンドラー
@@ -245,7 +245,7 @@ export default function TransactionsPage() {
     <div className="space-y-3 md:space-y-4">
       {/* 新規登録ボタン */}
       <div className="flex justify-end">
-        <Link href="/dashboard/transactions/new">
+        <Link href="/dashboard/transactions/new" prefetch={true}>
           <Button className="bg-primary hover:bg-primary/90 text-sm md:text-base h-9 md:h-10 px-3 md:px-4">
             <Plus className="mr-1 md:mr-2 h-3 w-3 md:h-4 md:w-4" />
             <span className="hidden sm:inline">収支を</span>記録

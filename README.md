@@ -1,29 +1,49 @@
 # 🏠 自動家計簿管理アプリ (Auto Money Manager)
 
+[![GitHub](https://img.shields.io/badge/GitHub-ri927%2Fauto--money--manager-blue?logo=github)](https://github.com/ri927/auto-money-manager)
+[![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)](https://www.typescriptlang.org/)
+[![AWS Amplify](https://img.shields.io/badge/AWS-Amplify%20Gen%202-orange?logo=amazon-aws)](https://aws.amazon.com/amplify/)
+
 家族で共有できる自動家計簿管理Webアプリケーションです。
 クレジットカードの利用通知メールを自動解析して、家計を簡単に管理できます。
 
 ## ✨ 主な機能
 
-- 📧 **メール自動解析**: クレジットカード利用通知メールを自動取り込み
-- 🤖 **AI自動分類**: ルールベースで支出を自動カテゴリ分類
+- 🔐 **ユーザー認証**: AWS Cognito による安全なサインアップ・ログイン
 - 👨‍👩‍👧‍👦 **家族共有**: 家族全員で収支を確認・管理
-- 📊 **レポート機能**: 月次レポート、グラフ表示、支出分析
-- 💰 **予算管理**: カテゴリ別予算設定と超過アラート
+- 💰 **収支管理**: 手動入力、一覧表示、フィルタリング
+- 🔄 **繰り返し取引**: サブスクや固定費の自動記録
+- 🗂️ **カテゴリ管理**: カスタマイズ可能な収支カテゴリ
+- 📅 **月次カレンダー**: 日ごとの収支を視覚的に確認
+- 📱 **レスポンシブ対応**: デスクトップ・モバイル両対応
+
+### 🚧 今後実装予定
+- 📧 メール自動解析（クレジットカード利用通知）
+- 🤖 AI自動分類（ルールベース）
+- 📊 レポート機能（月次レポート、グラフ表示）
+- 💰 予算管理（カテゴリ別予算設定と超過アラート）
 
 ## 🛠️ 技術スタック
 
 ### フロントエンド
-- **Next.js 14+** (App Router)
-- **TypeScript**
-- **Tailwind CSS** + **shadcn/ui**
+- **Next.js 16** (App Router)
+- **TypeScript 5**
+- **React 19**
+- **Tailwind CSS 4** + **shadcn/ui**
+- **Lucide React** (アイコン)
 
 ### バックエンド・インフラ (AWS)
-- **AWS Amplify** (ホスティング、認証、バックエンド統合)
+- **AWS Amplify Gen 2** (ホスティング、認証、バックエンド統合)
 - **Amazon Cognito** (ユーザー認証)
-- **DynamoDB** (データベース)
+- **Amazon DynamoDB** (NoSQL データベース)
 - **AWS AppSync** (GraphQL API)
-- **Amazon SES** + **Lambda** (メール処理)
+- **Amazon SES** + **Lambda** (メール処理 - 予定)
+
+### 開発ツール
+- **Storybook** (UIコンポーネントカタログ)
+- **Vitest** (テスト)
+- **ESLint** (コード品質)
 
 ## 📁 プロジェクト構造
 
@@ -93,32 +113,75 @@ npm run dev
 
 ブラウザで [http://localhost:3000](http://localhost:3000) を開きます。
 
-## 📝 次の実装ステップ
+## 🌐 AWS Amplify へのデプロイ
 
-現在、以下が完成しています:
+このアプリは AWS Amplify Hosting に簡単にデプロイできます。
+
+### クイックデプロイ
+
+1. AWS Amplify Console を開く
+2. GitHub リポジトリ `ri927/auto-money-manager` を接続
+3. `amplify.yml` が自動検出されます
+4. **保存してデプロイ** をクリック
+
+詳細な手順は **[DEPLOYMENT.md](./DEPLOYMENT.md)** を参照してください。
+
+### デプロイ設定ファイル
+
+- `amplify.yml`: Amplify Hosting ビルド設定
+- `DEPLOYMENT.md`: 詳細なデプロイガイド
+
+### 推定コスト
+
+AWS 無料枠内で運用可能（月額 $0）：
+- ビルド: 1,000分/月まで無料
+- ホスティング: 15GB 保存 + 15GB 配信/月まで無料
+
+## 📝 実装状況
+
+### ✅ 完成している機能
+
+#### Phase 1: 基本機能 (MVP)
 - ✅ プロジェクト環境のセットアップ
-- ✅ AWS Amplify の初期化と認証設定
-- ✅ データベーススキーマ設計
-- ✅ 基本的なページ構造とレイアウト
-- ✅ ユーザー認証機能 (サインアップ・ログイン)
-- ✅ ダッシュボードレイアウト
+- ✅ AWS Amplify Gen 2 の初期化と認証設定
+- ✅ データベーススキーマ設計（6モデル）
+- ✅ ユーザー認証機能（サインアップ・ログイン）
+- ✅ 家族グループ作成・招待機能
+- ✅ 収支入力フォーム
+- ✅ 収支一覧表示・フィルタリング
+- ✅ カテゴリ管理機能
+- ✅ 繰り返し取引機能（サブスク・固定費）
 
-### Phase 1: 基本機能の実装 (MVP)
-- [ ] 家族グループ作成・招待機能
-- [ ] 収支入力フォーム
-- [ ] 収支一覧表示
-- [ ] カテゴリ管理機能
-- [ ] ルールベース自動分類
+#### UI/UX
+- ✅ マネーフォワード風デザイン
+- ✅ レスポンシブ対応（モバイル・デスクトップ）
+- ✅ サイドバーナビゲーション
+- ✅ ボトムナビゲーション（モバイル）
+- ✅ 月次カレンダー表示
+- ✅ ダークテーマ対応（CSS変数）
 
-### Phase 2: 自動化機能
+#### 開発環境
+- ✅ TypeScript 完全対応
+- ✅ ESLint + Prettier 設定
+- ✅ Storybook セットアップ
+- ✅ Vitest テスト環境
+- ✅ GitHub リポジトリ
+- ✅ Amplify デプロイ設定
+
+### 🚧 今後の実装予定
+
+#### Phase 2: 自動化機能
 - [ ] Amazon SES + Lambda でメール受信
-- [ ] クレジットカードメール解析
+- [ ] クレジットカードメール解析（楽天、三井住友、JCB等）
 - [ ] 自動取引記録
+- [ ] カテゴリルールベース自動分類の拡張
 
-### Phase 3: レポート・分析
-- [ ] 月次サマリー
+#### Phase 3: レポート・分析
+- [ ] 月次サマリー（収入・支出・収支）
 - [ ] カテゴリ別円グラフ
-- [ ] 月次推移グラフ
+- [ ] 月次推移折れ線グラフ
+- [ ] 予算管理機能
+- [ ] 予算超過アラート
 
 ## 🔐 環境変数
 

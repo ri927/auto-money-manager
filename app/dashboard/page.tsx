@@ -8,7 +8,7 @@
 'use client';
 
 // React フック
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, useCallback } from 'react';
 
 // Amplify Data クライアント
 import { generateClient } from 'aws-amplify/data';
@@ -70,7 +70,7 @@ export default function DashboardPage() {
   /**
    * カテゴリ一覧を取得
    */
-  const fetchCategories = async (familyId: string) => {
+  const fetchCategories = useCallback(async (familyId: string) => {
     try {
       const { data, errors } = await client.models.Category.list({
         filter: {
@@ -87,12 +87,12 @@ export default function DashboardPage() {
       console.error('Error fetching categories:', err);
       throw err;
     }
-  };
+  }, []);
 
   /**
    * 収支一覧を取得（選択した月のデータ）
    */
-  const fetchTransactions = async (familyId: string, year: number, month: number) => {
+  const fetchTransactions = useCallback(async (familyId: string, year: number, month: number) => {
     try {
       // 選択した月の開始日と終了日を計算
       const startDate = new Date(year, month - 1, 1).toISOString().split('T')[0];
@@ -114,7 +114,7 @@ export default function DashboardPage() {
       console.error('Error fetching transactions:', err);
       throw err;
     }
-  };
+  }, []);
 
   /**
    * ユーザーの所属グループと収支データを取得
@@ -159,31 +159,31 @@ export default function DashboardPage() {
   /**
    * 月変更時のハンドラー
    */
-  const handleMonthChange = async (year: number, month: number) => {
+  const handleMonthChange = useCallback(async (year: number, month: number) => {
     setSelectedYear(year);
     setSelectedMonth(month);
 
     if (familyId) {
       await fetchTransactions(familyId, year, month);
     }
-  };
+  }, [familyId, fetchTransactions]);
 
   /**
    * 日付クリック時のハンドラー
    */
-  const handleDayClick = (dateString: string) => {
+  const handleDayClick = useCallback((dateString: string) => {
     setSelectedDate(dateString);
     setIsModalOpen(true);
-  };
+  }, []);
 
   /**
    * 収支が更新された時のハンドラー
    */
-  const handleTransactionUpdated = async () => {
+  const handleTransactionUpdated = useCallback(async () => {
     if (familyId) {
       await fetchTransactions(familyId, selectedYear, selectedMonth);
     }
-  };
+  }, [familyId, selectedYear, selectedMonth, fetchTransactions]);
 
   /**
    * 今月の統計データを計算
