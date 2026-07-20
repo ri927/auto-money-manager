@@ -94,9 +94,9 @@ export default function DashboardPage() {
    */
   const fetchTransactions = useCallback(async (familyId: string, year: number, month: number) => {
     try {
-      // 選択した月の開始日と終了日を計算
-      const startDate = new Date(year, month - 1, 1).toISOString().split('T')[0];
-      const endDate = new Date(year, month, 0).toISOString().split('T')[0];
+      // 選択した月の開始日と終了日を計算（ISO形式の完全な日時）
+      const startDate = new Date(year, month - 1, 1, 0, 0, 0, 0).toISOString();
+      const endDate = new Date(year, month, 0, 23, 59, 59, 999).toISOString();
 
       const { data, errors } = await client.models.Transaction.list({
         filter: {
@@ -278,10 +278,10 @@ export default function DashboardPage() {
      *
      * container: 中央揃えのコンテナ
      * mx-auto: 左右のマージンを自動（中央配置）
-     * モバイル: p-2 space-y-1 (超コンパクト)
-     * デスクトップ: p-6 space-y-2
+     * モバイル: px-2 py-3 space-y-3 (適度な余白を確保)
+     * デスクトップ: p-6 space-y-4
      */
-    <div className="container mx-auto p-2 md:p-6 space-y-1 md:space-y-2">
+    <div className="container mx-auto px-2 py-3 md:p-6 space-y-3 md:space-y-4">
       {/* 月次カレンダー（メイン表示） */}
       <MonthlyCalendar
         dailyBalances={dailyBalances}
@@ -291,54 +291,54 @@ export default function DashboardPage() {
 
       {/*
         統計カード
-        モバイル: 横並び（1行3列）超コンパクト表示
+        モバイル: 横並び（1行3列）見やすく改善
         デスクトップ: グリッドレイアウト（3列）
       */}
-      <div className="grid grid-cols-3 md:grid-cols-3 gap-1 md:gap-4">
-        {/* 収入カード */}
-        <div className="bg-white border border-gray-200 rounded p-1.5 md:rounded-lg md:p-4 shadow-sm">
+      <div className="grid grid-cols-3 gap-2 md:gap-4">
+        {/* 収入カード - モバイルで見やすく */}
+        <div className="bg-white border border-gray-200 rounded-lg md:rounded-lg p-2.5 md:p-4 shadow-sm">
           <div className="md:flex md:items-center md:justify-between">
             <div className="flex-1">
-              <p className="text-[9px] md:text-sm text-gray-500 mb-0.5 md:mb-0 leading-tight">収入</p>
-              <p className="text-xs md:text-2xl font-bold text-income tabular-nums leading-tight">
-                <span className="md:hidden">¥{(stats.income / 10000).toFixed(0)}万</span>
-                <span className="hidden md:inline">¥{stats.income.toLocaleString()}</span>
+              <p className="text-[10px] md:text-sm text-gray-500 mb-1 md:mb-1 leading-tight font-medium">収入</p>
+              <p className="text-sm md:text-2xl font-bold text-income tabular-nums leading-tight">
+                ¥{stats.income.toLocaleString()}
               </p>
             </div>
-            <div className="hidden md:block rounded-full bg-blue-50 p-2">
-              <ArrowUpCircle className="h-6 w-6 text-income" />
+            <div className="hidden md:block rounded-full bg-blue-50 p-2 mt-2 md:mt-0">
+              <ArrowUpCircle className="h-5 w-5 md:h-6 md:w-6 text-income" />
             </div>
           </div>
         </div>
 
-        {/* 支出カード */}
-        <div className="bg-white border border-gray-200 rounded p-1.5 md:rounded-lg md:p-4 shadow-sm">
+        {/* 支出カード - モバイルで見やすく */}
+        <div className="bg-white border border-gray-200 rounded-lg md:rounded-lg p-2.5 md:p-4 shadow-sm">
           <div className="md:flex md:items-center md:justify-between">
             <div className="flex-1">
-              <p className="text-[9px] md:text-sm text-gray-500 mb-0.5 md:mb-0 leading-tight">支出</p>
-              <p className="text-xs md:text-2xl font-bold text-expense tabular-nums leading-tight">
-                <span className="md:hidden">¥{(stats.expense / 10000).toFixed(0)}万</span>
-                <span className="hidden md:inline">¥{stats.expense.toLocaleString()}</span>
+              <p className="text-[10px] md:text-sm text-gray-500 mb-1 md:mb-1 leading-tight font-medium">支出</p>
+              <p className="text-sm md:text-2xl font-bold text-expense tabular-nums leading-tight">
+                ¥{stats.expense.toLocaleString()}
               </p>
             </div>
-            <div className="hidden md:block rounded-full bg-orange-50 p-2">
-              <ArrowDownCircle className="h-6 w-6 text-expense" />
+            <div className="hidden md:block rounded-full bg-orange-50 p-2 mt-2 md:mt-0">
+              <ArrowDownCircle className="h-5 w-5 md:h-6 md:w-6 text-expense" />
             </div>
           </div>
         </div>
 
-        {/* 収支カード */}
-        <div className="bg-white border border-gray-200 rounded p-1.5 md:rounded-lg md:p-4 shadow-sm">
+        {/* 収支カード - モバイルで見やすく */}
+        <div className="bg-white border border-gray-200 rounded-lg md:rounded-lg p-2.5 md:p-4 shadow-sm">
           <div className="md:flex md:items-center md:justify-between">
             <div className="flex-1">
-              <p className="text-[9px] md:text-sm text-gray-500 mb-0.5 md:mb-0 leading-tight">収支</p>
-              <p className="text-xs md:text-2xl font-bold text-gray-900 tabular-nums leading-tight">
-                <span className="md:hidden">¥{(stats.balance / 10000).toFixed(0)}万</span>
-                <span className="hidden md:inline">¥{stats.balance.toLocaleString()}</span>
+              <p className="text-[10px] md:text-sm text-gray-500 mb-1 md:mb-1 leading-tight font-medium">収支</p>
+              <p className={cn(
+                "text-sm md:text-2xl font-bold tabular-nums leading-tight",
+                stats.balance >= 0 ? "text-income" : "text-expense"
+              )}>
+                ¥{stats.balance.toLocaleString()}
               </p>
             </div>
-            <div className="hidden md:block rounded-full bg-teal-50 p-2">
-              <TrendingUp className="h-6 w-6 text-primary" />
+            <div className="hidden md:block rounded-full bg-teal-50 p-2 mt-2 md:mt-0">
+              <TrendingUp className="h-5 w-5 md:h-6 md:w-6 text-primary" />
             </div>
           </div>
         </div>

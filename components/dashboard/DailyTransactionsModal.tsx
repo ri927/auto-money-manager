@@ -293,49 +293,49 @@ export function DailyTransactionsModal({
   return (
     <>
       <Dialog open={isOpen} onOpenChange={handleClose}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>{formattedDate}の収支</DialogTitle>
-            <DialogDescription>
+        <DialogContent className="max-w-2xl w-[96vw] max-h-[92vh] overflow-y-auto">
+          <DialogHeader className="pb-3 md:pb-4">
+            <DialogTitle className="text-base md:text-xl font-bold">{formattedDate}の収支</DialogTitle>
+            <DialogDescription className="text-xs md:text-base">
               この日の収支を確認・編集できます
             </DialogDescription>
           </DialogHeader>
 
-          <div className="space-y-4">
-            {/* 追加ボタン */}
+          <div className="space-y-3 md:space-y-4">
+            {/* 追加ボタン - モバイルでタップしやすく */}
             {!isAddMode && (
-              <Button onClick={startAddMode} className="w-full">
-                <Plus className="h-4 w-4 mr-2" />
+              <Button onClick={startAddMode} className="w-full h-12 md:h-10 text-base md:text-sm font-semibold">
+                <Plus className="h-5 w-5 md:h-4 md:w-4 mr-2" />
                 収支を追加
               </Button>
             )}
 
             {/* 追加・編集フォーム */}
             {isAddMode && (
-              <div className="border rounded-lg p-4 bg-gray-50 space-y-4">
-                <h3 className="font-semibold">
+              <div className="border rounded-lg p-3 md:p-4 bg-gray-50 space-y-3 md:space-y-3">
+                <h3 className="font-bold text-base md:text-lg">
                   {editingTransaction ? '収支を編集' : '新しい収支'}
                 </h3>
 
                 {/* 種別 */}
-                <div className="space-y-2">
-                  <Label htmlFor="transaction-type">種別</Label>
+                <div className="space-y-1.5 md:space-y-2">
+                  <Label htmlFor="transaction-type" className="text-sm md:text-sm font-semibold">種別</Label>
                   <Select value={type} onValueChange={(value) => setType(value as 'income' | 'expense')}>
-                    <SelectTrigger id="transaction-type" aria-label="収支の種別を選択">
+                    <SelectTrigger id="transaction-type" aria-label="収支の種別を選択" className="h-12 md:h-10 text-base md:text-sm">
                       <SelectValue>
                         {type === 'income' ? '収入' : '支出'}
                       </SelectValue>
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="expense">支出</SelectItem>
-                      <SelectItem value="income">収入</SelectItem>
+                      <SelectItem value="expense" className="text-base md:text-sm py-3.5 md:py-2">支出</SelectItem>
+                      <SelectItem value="income" className="text-base md:text-sm py-3.5 md:py-2">収入</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
 
                 {/* 金額 */}
-                <div className="space-y-2">
-                  <Label htmlFor="transaction-amount">金額</Label>
+                <div className="space-y-1.5 md:space-y-2">
+                  <Label htmlFor="transaction-amount" className="text-sm md:text-sm font-semibold">金額</Label>
                   <Input
                     id="transaction-amount"
                     type="number"
@@ -346,14 +346,15 @@ export function DailyTransactionsModal({
                     onChange={(e) => setAmount(e.target.value)}
                     disabled={loading}
                     aria-required="true"
+                    className="h-12 md:h-10 text-base md:text-sm"
                   />
                 </div>
 
                 {/* カテゴリ */}
-                <div className="space-y-2">
-                  <Label htmlFor="transaction-category">カテゴリ</Label>
+                <div className="space-y-1.5 md:space-y-2">
+                  <Label htmlFor="transaction-category" className="text-sm md:text-sm font-semibold">カテゴリ</Label>
                   <Select value={categoryId} onValueChange={(value) => value && setCategoryId(value)}>
-                    <SelectTrigger id="transaction-category" aria-label="カテゴリを選択" aria-required="true">
+                    <SelectTrigger id="transaction-category" aria-label="カテゴリを選択" aria-required="true" className="h-12 md:h-10 text-base md:text-sm">
                       <SelectValue placeholder="カテゴリを選択">
                         {categoryId
                           ? filteredCategories.find((c) => c.id === categoryId)?.name || 'カテゴリを選択'
@@ -362,7 +363,7 @@ export function DailyTransactionsModal({
                     </SelectTrigger>
                     <SelectContent>
                       {filteredCategories.map((category) => (
-                        <SelectItem key={category.id} value={category.id}>
+                        <SelectItem key={category.id} value={category.id} className="text-base md:text-sm py-3.5 md:py-2">
                           {category.name}
                         </SelectItem>
                       ))}
@@ -371,8 +372,8 @@ export function DailyTransactionsModal({
                 </div>
 
                 {/* 説明 */}
-                <div className="space-y-2">
-                  <Label htmlFor="transaction-description">説明（任意）</Label>
+                <div className="space-y-1.5 md:space-y-2">
+                  <Label htmlFor="transaction-description" className="text-sm md:text-sm font-semibold">説明（任意）</Label>
                   <Input
                     id="transaction-description"
                     type="text"
@@ -380,14 +381,15 @@ export function DailyTransactionsModal({
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     disabled={loading}
+                    className="h-12 md:h-10 text-base md:text-sm"
                   />
                 </div>
 
                 {/* 支払い方法 */}
-                <div className="space-y-2">
-                  <Label htmlFor="transaction-payment">支払い方法（任意）</Label>
+                <div className="space-y-1.5 md:space-y-2">
+                  <Label htmlFor="transaction-payment" className="text-sm md:text-sm font-semibold">支払い方法（任意）</Label>
                   <Select value={paymentMethod} onValueChange={(value) => setPaymentMethod(value || '')}>
-                    <SelectTrigger id="transaction-payment" aria-label="支払い方法を選択">
+                    <SelectTrigger id="transaction-payment" aria-label="支払い方法を選択" className="h-12 md:h-10 text-base md:text-sm">
                       <SelectValue placeholder="選択してください">
                         {paymentMethod === 'cash'
                           ? '現金'
@@ -401,26 +403,26 @@ export function DailyTransactionsModal({
                       </SelectValue>
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="cash">現金</SelectItem>
-                      <SelectItem value="credit">クレジットカード</SelectItem>
-                      <SelectItem value="debit">デビットカード</SelectItem>
-                      <SelectItem value="e-money">電子マネー</SelectItem>
+                      <SelectItem value="cash" className="text-base md:text-sm py-3.5 md:py-2">現金</SelectItem>
+                      <SelectItem value="credit" className="text-base md:text-sm py-3.5 md:py-2">クレジットカード</SelectItem>
+                      <SelectItem value="debit" className="text-base md:text-sm py-3.5 md:py-2">デビットカード</SelectItem>
+                      <SelectItem value="e-money" className="text-base md:text-sm py-3.5 md:py-2">電子マネー</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
 
-                {/* ボタン */}
-                <div className="flex gap-2">
+                {/* ボタン - モバイルでタップしやすく */}
+                <div className="flex gap-2 md:gap-3 pt-2">
                   <Button
                     type="button"
                     variant="outline"
                     onClick={resetForm}
                     disabled={loading}
-                    className="flex-1"
+                    className="flex-1 h-12 md:h-10 text-base md:text-sm font-semibold"
                   >
                     キャンセル
                   </Button>
-                  <Button onClick={handleSave} disabled={loading} className="flex-1">
+                  <Button onClick={handleSave} disabled={loading} className="flex-1 h-12 md:h-10 text-base md:text-sm font-semibold">
                     {loading ? '保存中...' : '保存'}
                   </Button>
                 </div>
@@ -430,47 +432,49 @@ export function DailyTransactionsModal({
             {/* 収支一覧 */}
             {transactions.length > 0 ? (
               <div className="space-y-2">
-                <h3 className="font-semibold text-sm text-gray-600">登録済みの収支</h3>
+                <h3 className="font-bold text-sm md:text-base text-gray-700">登録済みの収支</h3>
                 <div className="divide-y border rounded-lg">
                   {transactions.map((transaction) => (
                     <div
                       key={transaction.id}
-                      className="flex items-center justify-between p-3 hover:bg-gray-50"
+                      className="flex items-center justify-between p-3 md:p-4 hover:bg-gray-50 min-h-[68px] md:min-h-[60px]"
                     >
-                      <div className="flex-1">
-                        <p className="font-medium text-sm">
+                      <div className="flex-1 min-w-0 mr-2">
+                        <p className="font-semibold text-sm md:text-base truncate">
                           {transaction.description || '未入力'}
                         </p>
-                        <p className="text-xs text-gray-500">
+                        <p className="text-xs md:text-sm text-gray-500 mt-0.5">
                           {transaction.type === 'income' ? '収入' : '支出'}
                         </p>
                       </div>
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-2 md:gap-3 flex-shrink-0">
                         <p
                           className={cn(
-                            'font-semibold tabular-nums',
+                            'font-bold tabular-nums text-base md:text-base',
                             transaction.type === 'income' ? 'text-income' : 'text-expense'
                           )}
                         >
                           {transaction.type === 'income' ? '+' : '-'}¥
                           {transaction.amount.toLocaleString()}
                         </p>
-                        <div className="flex gap-1">
+                        <div className="flex gap-0.5 md:gap-1">
                           <Button
                             variant="ghost"
-                            size="icon-sm"
+                            size="icon"
                             onClick={() => startEditMode(transaction)}
                             aria-label={`${transaction.description || '未入力'}を編集`}
+                            className="h-10 w-10 md:h-8 md:w-8"
                           >
-                            <Pencil className="h-3 w-3" />
+                            <Pencil className="h-4.5 w-4.5 md:h-3.5 md:w-3.5" />
                           </Button>
                           <Button
                             variant="ghost"
-                            size="icon-sm"
+                            size="icon"
                             onClick={() => confirmDelete(transaction)}
                             aria-label={`${transaction.description || '未入力'}を削除`}
+                            className="h-10 w-10 md:h-8 md:w-8"
                           >
-                            <Trash2 className="h-3 w-3 text-red-600" />
+                            <Trash2 className="h-4.5 w-4.5 md:h-3.5 md:w-3.5 text-red-600" />
                           </Button>
                         </div>
                       </div>
@@ -480,8 +484,8 @@ export function DailyTransactionsModal({
               </div>
             ) : (
               !isAddMode && (
-                <div className="text-center py-8 text-gray-500">
-                  <p className="text-sm">この日の収支はまだありません</p>
+                <div className="text-center py-10 md:py-12 text-gray-500">
+                  <p className="text-sm md:text-base">この日の収支はまだありません</p>
                 </div>
               )
             )}
@@ -491,16 +495,16 @@ export function DailyTransactionsModal({
 
       {/* 削除確認ダイアログ */}
       <AlertDialog open={deleteConfirmOpen} onOpenChange={setDeleteConfirmOpen}>
-        <AlertDialogContent>
+        <AlertDialogContent className="w-[92vw] sm:max-w-md">
           <AlertDialogHeader>
-            <AlertDialogTitle>収支を削除しますか？</AlertDialogTitle>
-            <AlertDialogDescription>
+            <AlertDialogTitle className="text-base md:text-xl font-bold">収支を削除しますか？</AlertDialogTitle>
+            <AlertDialogDescription className="text-sm md:text-base">
               この操作は取り消せません。本当に削除しますか？
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>キャンセル</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDelete} className="bg-red-600 hover:bg-red-700">
+          <AlertDialogFooter className="flex-col sm:flex-row gap-2 mt-4">
+            <AlertDialogCancel className="w-full sm:w-auto h-12 md:h-10 text-base md:text-sm font-semibold">キャンセル</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDelete} className="w-full sm:w-auto h-12 md:h-10 text-base md:text-sm font-semibold bg-red-600 hover:bg-red-700">
               削除
             </AlertDialogAction>
           </AlertDialogFooter>

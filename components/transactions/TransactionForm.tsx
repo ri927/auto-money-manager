@@ -256,24 +256,24 @@ export function TransactionForm({ familyId, userId }: TransactionFormProps) {
   const filteredCategories = categories.filter((c) => c.type === type);
 
   return (
-    <Card className="w-full max-w-2xl">
-      <CardHeader>
-        <CardTitle>収支を記録</CardTitle>
-        <CardDescription>日々の収入・支出を記録します</CardDescription>
+    <Card className="w-full shadow-sm border-none">
+      <CardHeader className="p-3 md:p-6">
+        <CardTitle className="text-lg md:text-xl">収支を記録</CardTitle>
+        <CardDescription className="text-sm md:text-base">日々の収入・支出を記録します</CardDescription>
       </CardHeader>
 
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-6">
+      <CardContent className="p-3 md:p-6">
+        <form onSubmit={handleSubmit} className="space-y-3 md:space-y-6">
           {/* エラーメッセージ */}
           {error && (
-            <div className="rounded-md bg-red-50 p-3 text-sm text-red-800">
+            <div className="rounded-md bg-red-50 p-3 text-sm md:text-base text-red-800">
               {error}
             </div>
           )}
 
           {/* 日付 */}
           <div className="space-y-2">
-            <Label htmlFor="date">日付</Label>
+            <Label htmlFor="date" className="text-sm md:text-base font-medium">日付</Label>
             <Input
               id="date"
               type="date"
@@ -281,28 +281,29 @@ export function TransactionForm({ familyId, userId }: TransactionFormProps) {
               onChange={(e) => setDate(e.target.value)}
               required
               disabled={loading}
+              className="h-11 md:h-10 text-base md:text-sm"
             />
           </div>
 
           {/* 種別 */}
           <div className="space-y-2">
-            <Label htmlFor="type">種別</Label>
+            <Label htmlFor="type" className="text-sm md:text-base font-medium">種別</Label>
             <Select value={type} onValueChange={(value) => setType(value as 'income' | 'expense')}>
-              <SelectTrigger>
+              <SelectTrigger className="h-11 md:h-10 text-base md:text-sm">
                 <SelectValue>
                   {type === 'income' ? '収入' : '支出'}
                 </SelectValue>
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="expense">支出</SelectItem>
-                <SelectItem value="income">収入</SelectItem>
+                <SelectItem value="expense" className="text-base md:text-sm py-3 md:py-2">支出</SelectItem>
+                <SelectItem value="income" className="text-base md:text-sm py-3 md:py-2">収入</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           {/* 金額 */}
           <div className="space-y-2">
-            <Label htmlFor="amount">金額</Label>
+            <Label htmlFor="amount" className="text-sm md:text-base font-medium">金額</Label>
             <Input
               id="amount"
               type="number"
@@ -313,14 +314,15 @@ export function TransactionForm({ familyId, userId }: TransactionFormProps) {
               onChange={(e) => setAmount(e.target.value)}
               required
               disabled={loading}
+              className="h-11 md:h-10 text-base md:text-sm"
             />
           </div>
 
           {/* カテゴリ */}
           <div className="space-y-2">
-            <Label htmlFor="category">カテゴリ</Label>
+            <Label htmlFor="category" className="text-sm md:text-base font-medium">カテゴリ</Label>
             <Select value={categoryId} onValueChange={(value) => value && setCategoryId(value)}>
-              <SelectTrigger>
+              <SelectTrigger className="h-11 md:h-10 text-base md:text-sm">
                 <SelectValue placeholder="カテゴリを選択">
                   {categoryId
                     ? filteredCategories.find((c) => c.id === categoryId)?.name || 'カテゴリを選択'
@@ -329,7 +331,7 @@ export function TransactionForm({ familyId, userId }: TransactionFormProps) {
               </SelectTrigger>
               <SelectContent>
                 {filteredCategories.map((category) => (
-                  <SelectItem key={category.id} value={category.id}>
+                  <SelectItem key={category.id} value={category.id} className="text-base md:text-sm py-3 md:py-2">
                     {category.name}
                   </SelectItem>
                 ))}
@@ -339,7 +341,7 @@ export function TransactionForm({ familyId, userId }: TransactionFormProps) {
 
           {/* 説明 */}
           <div className="space-y-2">
-            <Label htmlFor="description">説明（任意）</Label>
+            <Label htmlFor="description" className="text-sm md:text-base font-medium">説明（任意）</Label>
             <Input
               id="description"
               type="text"
@@ -347,14 +349,15 @@ export function TransactionForm({ familyId, userId }: TransactionFormProps) {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               disabled={loading}
+              className="h-11 md:h-10 text-base md:text-sm"
             />
           </div>
 
           {/* 支払い方法 */}
           <div className="space-y-2">
-            <Label htmlFor="paymentMethod">支払い方法（任意）</Label>
+            <Label htmlFor="paymentMethod" className="text-sm md:text-base font-medium">支払い方法（任意）</Label>
             <Select value={paymentMethod} onValueChange={(value) => setPaymentMethod(value || '')}>
-              <SelectTrigger>
+              <SelectTrigger className="h-11 md:h-10 text-base md:text-sm">
                 <SelectValue placeholder="選択してください">
                   {paymentMethod === 'cash'
                     ? '現金'
@@ -368,36 +371,36 @@ export function TransactionForm({ familyId, userId }: TransactionFormProps) {
                 </SelectValue>
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="cash">現金</SelectItem>
-                <SelectItem value="credit">クレジットカード</SelectItem>
-                <SelectItem value="debit">デビットカード</SelectItem>
-                <SelectItem value="e-money">電子マネー</SelectItem>
+                <SelectItem value="cash" className="text-base md:text-sm py-3 md:py-2">現金</SelectItem>
+                <SelectItem value="credit" className="text-base md:text-sm py-3 md:py-2">クレジットカード</SelectItem>
+                <SelectItem value="debit" className="text-base md:text-sm py-3 md:py-2">デビットカード</SelectItem>
+                <SelectItem value="e-money" className="text-base md:text-sm py-3 md:py-2">電子マネー</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           {/* 繰り返し設定 */}
-          <div className="space-y-2 border-t pt-4">
-            <div className="flex items-center gap-2">
+          <div className="space-y-2 md:space-y-3 border-t pt-4">
+            <div className="flex items-center gap-2 md:gap-3">
               <input
                 type="checkbox"
                 id="isRecurring"
                 checked={isRecurring}
                 onChange={(e) => setIsRecurring(e.target.checked)}
-                className="h-4 w-4 rounded border-gray-300"
+                className="h-5 w-5 md:h-4 md:w-4 rounded border-gray-300"
                 disabled={loading}
               />
-              <Label htmlFor="isRecurring" className="font-medium cursor-pointer">
+              <Label htmlFor="isRecurring" className="font-medium cursor-pointer text-sm md:text-base">
                 繰り返し設定を有効にする（サブスクや固定費）
               </Label>
             </div>
 
             {/* 繰り返し設定が有効な場合のみ表示 */}
             {isRecurring && (
-              <div className="ml-6 space-y-4 border-l-2 border-blue-200 pl-4">
+              <div className="ml-4 md:ml-7 space-y-3 md:space-y-4 border-l-2 border-blue-200 pl-2 md:pl-4">
                 {/* 繰り返し名 */}
                 <div className="space-y-2">
-                  <Label htmlFor="recurringName">繰り返し取引の名前 *</Label>
+                  <Label htmlFor="recurringName" className="text-sm md:text-base font-medium">繰り返し取引の名前 *</Label>
                   <Input
                     id="recurringName"
                     type="text"
@@ -406,28 +409,29 @@ export function TransactionForm({ familyId, userId }: TransactionFormProps) {
                     onChange={(e) => setRecurringName(e.target.value)}
                     required={isRecurring}
                     disabled={loading}
+                    className="h-11 md:h-10 text-base md:text-sm"
                   />
                 </div>
 
                 {/* 頻度 */}
                 <div className="space-y-2">
-                  <Label htmlFor="frequency">頻度 *</Label>
+                  <Label htmlFor="frequency" className="text-sm md:text-base font-medium">頻度 *</Label>
                   <Select value={frequency} onValueChange={(v) => setFrequency(v as any)}>
-                    <SelectTrigger>
+                    <SelectTrigger className="h-11 md:h-10 text-base md:text-sm">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="daily">毎日</SelectItem>
-                      <SelectItem value="weekly">毎週</SelectItem>
-                      <SelectItem value="monthly">毎月</SelectItem>
-                      <SelectItem value="yearly">毎年</SelectItem>
+                      <SelectItem value="daily" className="text-base md:text-sm py-3 md:py-2">毎日</SelectItem>
+                      <SelectItem value="weekly" className="text-base md:text-sm py-3 md:py-2">毎週</SelectItem>
+                      <SelectItem value="monthly" className="text-base md:text-sm py-3 md:py-2">毎月</SelectItem>
+                      <SelectItem value="yearly" className="text-base md:text-sm py-3 md:py-2">毎年</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
 
                 {/* 間隔 */}
                 <div className="space-y-2">
-                  <Label htmlFor="interval">間隔</Label>
+                  <Label htmlFor="interval" className="text-sm md:text-base font-medium">間隔</Label>
                   <Input
                     id="interval"
                     type="number"
@@ -435,8 +439,9 @@ export function TransactionForm({ familyId, userId }: TransactionFormProps) {
                     value={interval}
                     onChange={(e) => setInterval(parseInt(e.target.value) || 1)}
                     disabled={loading}
+                    className="h-11 md:h-10 text-base md:text-sm"
                   />
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs md:text-sm text-gray-500">
                     {frequency === 'daily' && `${interval}日ごと`}
                     {frequency === 'weekly' && `${interval}週間ごと`}
                     {frequency === 'monthly' && `${interval}ヶ月ごと`}
@@ -447,7 +452,7 @@ export function TransactionForm({ familyId, userId }: TransactionFormProps) {
                 {/* 月の日付（monthly/yearly の場合のみ） */}
                 {(frequency === 'monthly' || frequency === 'yearly') && (
                   <div className="space-y-2">
-                    <Label htmlFor="dayOfMonth">月の何日 *</Label>
+                    <Label htmlFor="dayOfMonth" className="text-sm md:text-base font-medium">月の何日 *</Label>
                     <Input
                       id="dayOfMonth"
                       type="number"
@@ -457,6 +462,7 @@ export function TransactionForm({ familyId, userId }: TransactionFormProps) {
                       onChange={(e) => setDayOfMonth(parseInt(e.target.value) || 1)}
                       required
                       disabled={loading}
+                      className="h-11 md:h-10 text-base md:text-sm"
                     />
                   </div>
                 )}
@@ -464,19 +470,19 @@ export function TransactionForm({ familyId, userId }: TransactionFormProps) {
                 {/* 曜日（weekly の場合のみ） */}
                 {frequency === 'weekly' && (
                   <div className="space-y-2">
-                    <Label htmlFor="dayOfWeek">曜日 *</Label>
+                    <Label htmlFor="dayOfWeek" className="text-sm md:text-base font-medium">曜日 *</Label>
                     <Select value={String(dayOfWeek ?? 0)} onValueChange={(v) => setDayOfWeek(v ? parseInt(v) : 0)}>
-                      <SelectTrigger>
+                      <SelectTrigger className="h-11 md:h-10 text-base md:text-sm">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="0">日曜日</SelectItem>
-                        <SelectItem value="1">月曜日</SelectItem>
-                        <SelectItem value="2">火曜日</SelectItem>
-                        <SelectItem value="3">水曜日</SelectItem>
-                        <SelectItem value="4">木曜日</SelectItem>
-                        <SelectItem value="5">金曜日</SelectItem>
-                        <SelectItem value="6">土曜日</SelectItem>
+                        <SelectItem value="0" className="text-base md:text-sm py-3 md:py-2">日曜日</SelectItem>
+                        <SelectItem value="1" className="text-base md:text-sm py-3 md:py-2">月曜日</SelectItem>
+                        <SelectItem value="2" className="text-base md:text-sm py-3 md:py-2">火曜日</SelectItem>
+                        <SelectItem value="3" className="text-base md:text-sm py-3 md:py-2">水曜日</SelectItem>
+                        <SelectItem value="4" className="text-base md:text-sm py-3 md:py-2">木曜日</SelectItem>
+                        <SelectItem value="5" className="text-base md:text-sm py-3 md:py-2">金曜日</SelectItem>
+                        <SelectItem value="6" className="text-base md:text-sm py-3 md:py-2">土曜日</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -484,7 +490,7 @@ export function TransactionForm({ familyId, userId }: TransactionFormProps) {
 
                 {/* 開始日 */}
                 <div className="space-y-2">
-                  <Label htmlFor="startDate">開始日 *</Label>
+                  <Label htmlFor="startDate" className="text-sm md:text-base font-medium">開始日 *</Label>
                   <Input
                     id="startDate"
                     type="date"
@@ -492,21 +498,22 @@ export function TransactionForm({ familyId, userId }: TransactionFormProps) {
                     onChange={(e) => setStartDate(e.target.value)}
                     required={isRecurring}
                     disabled={loading}
+                    className="h-11 md:h-10 text-base md:text-sm"
                   />
                 </div>
 
                 {/* 終了日（オプション） */}
                 <div className="space-y-2">
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 md:gap-3">
                     <input
                       type="checkbox"
                       id="hasEndDate"
                       checked={hasEndDate}
                       onChange={(e) => setHasEndDate(e.target.checked)}
-                      className="h-4 w-4 rounded border-gray-300"
+                      className="h-5 w-5 md:h-4 md:w-4 rounded border-gray-300"
                       disabled={loading}
                     />
-                    <Label htmlFor="hasEndDate" className="cursor-pointer">終了日を設定する</Label>
+                    <Label htmlFor="hasEndDate" className="cursor-pointer text-sm md:text-base">終了日を設定する</Label>
                   </div>
 
                   {hasEndDate && (
@@ -517,6 +524,7 @@ export function TransactionForm({ familyId, userId }: TransactionFormProps) {
                       onChange={(e) => setEndDate(e.target.value)}
                       min={startDate}
                       disabled={loading}
+                      className="h-11 md:h-10 text-base md:text-sm"
                     />
                   )}
                 </div>
@@ -525,11 +533,21 @@ export function TransactionForm({ familyId, userId }: TransactionFormProps) {
           </div>
 
           {/* ボタン */}
-          <div className="flex gap-4">
-            <Button type="button" variant="outline" onClick={handleCancel} disabled={loading} className="flex-1">
+          <div className="flex gap-2 md:gap-4 pt-2">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handleCancel}
+              disabled={loading}
+              className="flex-1 h-11 md:h-10 text-base md:text-sm"
+            >
               キャンセル
             </Button>
-            <Button type="submit" disabled={loading} className="flex-1">
+            <Button
+              type="submit"
+              disabled={loading}
+              className="flex-1 h-11 md:h-10 text-base md:text-sm"
+            >
               {loading ? '保存中...' : isRecurring ? '繰り返し設定を保存' : '保存'}
             </Button>
           </div>

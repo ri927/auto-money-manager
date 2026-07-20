@@ -91,30 +91,30 @@ export function TransactionList({
   return (
     <>
       {/* モバイル: カード表示 */}
-      <div className="md:hidden space-y-3">
+      <div className="md:hidden space-y-2">
         {transactions.map((transaction) => {
           const category = categoryMap.get(transaction.categoryId || '');
 
           return (
-            <Card key={transaction.id} className="shadow-sm border-none p-4">
+            <Card key={transaction.id} className="shadow-sm border-none p-3">
               {/* 上部: 日付とカテゴリ */}
-              <div className="flex items-start justify-between mb-3">
-                <div className="flex-1">
+              <div className="flex items-start justify-between mb-2">
+                <div className="flex-1 min-w-0">
                   {/* カテゴリ */}
                   {category ? (
                     <div className="flex items-center gap-2 mb-1">
                       <div
-                        className="h-2 w-2 rounded-full"
+                        className="h-2.5 w-2.5 rounded-full flex-shrink-0"
                         style={{ backgroundColor: category.color || '#6b7280' }}
                       />
-                      <span className="text-sm font-medium">{category.name}</span>
+                      <span className="text-base font-medium truncate">{category.name}</span>
                     </div>
                   ) : (
-                    <span className="text-sm text-gray-400 mb-1 block">未分類</span>
+                    <span className="text-base text-gray-400 mb-1 block">未分類</span>
                   )}
                   {/* 説明 */}
                   {transaction.description && (
-                    <p className="text-xs text-gray-600 line-clamp-2">
+                    <p className="text-sm text-gray-600 line-clamp-2 mt-1">
                       {transaction.description}
                     </p>
                   )}
@@ -123,7 +123,7 @@ export function TransactionList({
                 {/* 金額（右側） */}
                 <div
                   className={cn(
-                    'text-lg font-bold tabular-nums ml-4',
+                    'text-xl font-bold tabular-nums ml-3 flex-shrink-0',
                     transaction.type === 'income' ? 'text-income' : 'text-expense'
                   )}
                 >
@@ -132,13 +132,13 @@ export function TransactionList({
               </div>
 
               {/* 下部: 日付、支払方法、アクションボタン */}
-              <div className="flex items-center justify-between text-xs text-gray-500 pt-3 border-t">
-                <div className="flex items-center gap-3">
-                  <span>{formatDate(transaction.date)}</span>
+              <div className="flex items-center justify-between text-sm text-gray-500 pt-2 border-t">
+                <div className="flex items-center gap-2 min-w-0 flex-1">
+                  <span className="flex-shrink-0">{formatDate(transaction.date)}</span>
                   {transaction.paymentMethod && (
                     <>
-                      <span>•</span>
-                      <span>
+                      <span className="flex-shrink-0">•</span>
+                      <span className="truncate">
                         {transaction.paymentMethod === 'cash' && '現金'}
                         {transaction.paymentMethod === 'credit' && 'クレジット'}
                         {transaction.paymentMethod === 'debit' && 'デビット'}
@@ -149,22 +149,22 @@ export function TransactionList({
                 </div>
 
                 {/* アクションボタン */}
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-0.5 flex-shrink-0 ml-2">
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="h-8 w-8"
+                    className="h-9 w-9"
                     onClick={() => onEdit(transaction)}
                   >
-                    <Pencil className="h-3.5 w-3.5" />
+                    <Pencil className="h-4 w-4" />
                   </Button>
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="h-8 w-8"
+                    className="h-9 w-9"
                     onClick={() => onDelete(transaction)}
                   >
-                    <Trash2 className="h-3.5 w-3.5 text-red-600" />
+                    <Trash2 className="h-4 w-4 text-red-600" />
                   </Button>
                 </div>
               </div>

@@ -192,45 +192,45 @@ export function MonthlyCalendar({ dailyBalances, onMonthChange, onDayClick }: Mo
 
   return (
     <Card className="shadow-sm border-none">
-      <CardHeader className="border-b bg-gray-50/50 p-2 md:p-6">
+      <CardHeader className="border-b bg-gray-50/50 p-3 md:p-6">
         <div className="flex items-center justify-between">
           {/* 月表示 */}
-          <CardTitle className="text-sm md:text-lg font-bold">
+          <CardTitle className="text-lg md:text-xl font-bold">
             {currentYear}年 {currentMonth}月
           </CardTitle>
 
-          {/* 前月・次月ボタン */}
+          {/* 前月・次月ボタン - モバイルでタップしやすいサイズに */}
           <div className="flex items-center gap-1 md:gap-2">
             <Button
               variant="ghost"
-              size="icon-sm"
+              size="icon"
               onClick={goToPreviousMonth}
               aria-label="前月"
-              className="h-6 w-6 md:h-8 md:w-8"
+              className="h-10 w-10 md:h-9 md:w-9"
             >
-              <ChevronLeft className="h-2.5 w-2.5 md:h-4 md:w-4" />
+              <ChevronLeft className="h-5 w-5 md:h-4 md:w-4" />
             </Button>
             <Button
               variant="ghost"
-              size="icon-sm"
+              size="icon"
               onClick={goToNextMonth}
               aria-label="次月"
-              className="h-6 w-6 md:h-8 md:w-8"
+              className="h-10 w-10 md:h-9 md:w-9"
             >
-              <ChevronRight className="h-2.5 w-2.5 md:h-4 md:w-4" />
+              <ChevronRight className="h-5 w-5 md:h-4 md:w-4" />
             </Button>
           </div>
         </div>
       </CardHeader>
 
-      <CardContent className="p-1 md:p-4">
+      <CardContent className="p-2 md:p-4">
         {/* 曜日ヘッダー */}
-        <div className="grid grid-cols-7 gap-px md:gap-1 mb-0.5 md:mb-2">
+        <div className="grid grid-cols-7 gap-0.5 md:gap-1 mb-1 md:mb-2">
           {['日', '月', '火', '水', '木', '金', '土'].map((day, index) => (
             <div
               key={day}
               className={cn(
-                'text-center text-[8px] md:text-xs font-semibold py-0.5 md:py-2',
+                'text-center text-xs md:text-xs font-semibold py-1.5 md:py-2',
                 index === 0 ? 'text-red-600' : index === 6 ? 'text-blue-600' : 'text-gray-600'
               )}
             >
@@ -239,8 +239,8 @@ export function MonthlyCalendar({ dailyBalances, onMonthChange, onDayClick }: Mo
           ))}
         </div>
 
-        {/* 日付セル */}
-        <div className="grid grid-cols-7 gap-px md:gap-1">
+        {/* 日付セル - モバイルでタップしやすいサイズに調整 */}
+        <div className="grid grid-cols-7 gap-0.5 md:gap-1">
           {calendarDays.map((day, index) => {
             // 日曜日か土曜日かを判定
             const dayOfWeek = index % 7;
@@ -263,17 +263,17 @@ export function MonthlyCalendar({ dailyBalances, onMonthChange, onDayClick }: Mo
                 }
                 aria-current={day.isToday ? 'date' : undefined}
                 className={cn(
-                  'relative min-h-[36px] md:min-h-[80px] p-1 md:p-2 rounded border md:rounded-lg transition-all text-left w-full',
+                  'relative min-h-[64px] md:min-h-[80px] p-1.5 md:p-2 rounded md:rounded-lg transition-all text-left w-full',
                   day.isCurrentMonth
-                    ? 'bg-white border-gray-200 hover:bg-blue-50 hover:border-blue-300 cursor-pointer active:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1'
-                    : 'bg-gray-50/50 border-gray-100 cursor-not-allowed',
-                  day.isToday && 'ring-1 md:ring-2 ring-primary border-primary'
+                    ? 'bg-white border border-gray-200 hover:bg-blue-50 hover:border-blue-300 cursor-pointer active:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-0'
+                    : 'bg-gray-50/50 border border-gray-100 cursor-not-allowed',
+                  day.isToday && 'ring-2 ring-primary border-primary'
                 )}
               >
                 {/* 日付 */}
                 <div
                   className={cn(
-                    'text-[9px] md:text-xs font-semibold mb-0.5 md:mb-1 leading-none',
+                    'text-sm md:text-sm font-semibold mb-1 leading-none',
                     day.isCurrentMonth
                       ? isSunday
                         ? 'text-red-600'
@@ -286,19 +286,19 @@ export function MonthlyCalendar({ dailyBalances, onMonthChange, onDayClick }: Mo
                   {day.date}
                 </div>
 
-                {/* 収支額（当月のみ表示） */}
+                {/* 収支額（当月のみ表示） - 金額を見やすく */}
                 {day.isCurrentMonth && (day.balance !== 0 || day.income > 0 || day.expense > 0) && (
-                  <div className="space-y-px">
+                  <div className="space-y-0.5 mt-0.5">
                     {/* 収入（緑色） */}
                     {day.income > 0 && (
-                      <div className="text-[7px] md:text-[10px] font-medium text-income tabular-nums leading-none">
-                        {formatAmount(day.income)}
+                      <div className="text-[9px] md:text-[10px] font-semibold text-income tabular-nums leading-tight">
+                        +{formatAmount(day.income)}
                       </div>
                     )}
                     {/* 支出（赤色） */}
                     {day.expense > 0 && (
-                      <div className="text-[7px] md:text-[10px] font-medium text-expense tabular-nums leading-none">
-                        {formatAmount(day.expense)}
+                      <div className="text-[9px] md:text-[10px] font-semibold text-expense tabular-nums leading-tight">
+                        -{formatAmount(day.expense)}
                       </div>
                     )}
                   </div>
@@ -308,18 +308,18 @@ export function MonthlyCalendar({ dailyBalances, onMonthChange, onDayClick }: Mo
           })}
         </div>
 
-        {/* 凡例（モバイルでは非表示） */}
-        <div className="hidden md:flex mt-4 pt-4 border-t items-center justify-center gap-6 text-xs text-gray-600">
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-income"></div>
+        {/* 凡例（モバイルでも表示、コンパクトに） */}
+        <div className="flex mt-3 md:mt-4 pt-3 md:pt-4 border-t items-center justify-center gap-4 md:gap-6 text-[10px] md:text-xs text-gray-600">
+          <div className="flex items-center gap-1.5 md:gap-2">
+            <div className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-income"></div>
             <span>収入</span>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-expense"></div>
+          <div className="flex items-center gap-1.5 md:gap-2">
+            <div className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-expense"></div>
             <span>支出</span>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded border-2 border-primary"></div>
+          <div className="flex items-center gap-1.5 md:gap-2">
+            <div className="w-2.5 h-2.5 md:w-3 md:h-3 rounded border-2 border-primary"></div>
             <span>今日</span>
           </div>
         </div>

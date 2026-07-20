@@ -72,7 +72,7 @@ export default function NewTransactionPage() {
   // ローディング中の表示
   if (loading) {
     return (
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-2 md:px-4 py-4 md:py-8">
         <div className="flex items-center justify-center py-12">
           <div className="text-center">
             <div className="mb-4 h-12 w-12 animate-spin rounded-full border-4 border-blue-600 border-t-transparent mx-auto"></div>
@@ -86,7 +86,7 @@ export default function NewTransactionPage() {
   // エラー時の表示
   if (error) {
     return (
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-2 md:px-4 py-4 md:py-8">
         <div className="rounded-md bg-red-50 p-4 text-red-800">{error}</div>
       </div>
     );
@@ -95,15 +95,17 @@ export default function NewTransactionPage() {
   // グループIDとユーザーIDが取得できたら、フォームを表示
   if (familyId && user) {
     return (
-      <div className="container mx-auto flex min-h-full items-center justify-center px-4 py-8">
-        <TransactionForm familyId={familyId} userId={user.userId} />
+      <div className="w-full px-2 md:px-4 py-4 md:py-8">
+        <div className="mx-auto max-w-2xl">
+          <TransactionForm familyId={familyId} userId={user.userId} />
+        </div>
       </div>
     );
   }
 
   // その他のエラー
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-2 md:px-4 py-4 md:py-8">
       <div className="rounded-md bg-red-50 p-4 text-red-800">
         ユーザー情報またはグループ情報を取得できませんでした
       </div>

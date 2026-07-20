@@ -176,27 +176,27 @@ export function CategoryModal({
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle>
+      <DialogContent className="sm:max-w-md w-[95vw] max-h-[90vh] overflow-y-auto">
+        <DialogHeader className="pb-3 md:pb-4">
+          <DialogTitle className="text-lg md:text-xl">
             {category ? 'カテゴリを編集' : '新しいカテゴリを追加'}
           </DialogTitle>
-          <DialogDescription>
+          <DialogDescription className="text-sm md:text-base">
             カテゴリの情報を入力してください
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-3 md:space-y-4">
           {/* エラーメッセージ */}
           {error && (
-            <div className="rounded-md bg-red-50 p-3 text-sm text-red-800">
+            <div className="rounded-md bg-red-50 p-3 text-sm md:text-base text-red-800">
               {error}
             </div>
           )}
 
           {/* カテゴリ名 */}
           <div className="space-y-2">
-            <Label htmlFor="name">カテゴリ名</Label>
+            <Label htmlFor="name" className="text-sm md:text-base font-medium">カテゴリ名</Label>
             <Input
               id="name"
               type="text"
@@ -205,22 +205,23 @@ export function CategoryModal({
               onChange={(e) => setName(e.target.value)}
               required
               disabled={loading}
+              className="h-11 md:h-10 text-base md:text-sm"
             />
           </div>
 
           {/* 種別（新規作成時のみ） */}
           {!category && (
             <div className="space-y-2">
-              <Label htmlFor="type">種別</Label>
+              <Label htmlFor="type" className="text-sm md:text-base font-medium">種別</Label>
               <Select value={type} onValueChange={(value) => setType(value as 'income' | 'expense')}>
-                <SelectTrigger>
+                <SelectTrigger className="h-11 md:h-10 text-base md:text-sm">
                   <SelectValue>
                     {type === 'income' ? '収入' : '支出'}
                   </SelectValue>
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="expense">支出</SelectItem>
-                  <SelectItem value="income">収入</SelectItem>
+                  <SelectItem value="expense" className="text-base md:text-sm py-3 md:py-2">支出</SelectItem>
+                  <SelectItem value="income" className="text-base md:text-sm py-3 md:py-2">収入</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -228,38 +229,38 @@ export function CategoryModal({
 
           {/* 色 */}
           <div className="space-y-2">
-            <Label htmlFor="color">色</Label>
-            <div className="flex gap-2">
+            <Label htmlFor="color" className="text-sm md:text-base font-medium">色</Label>
+            <div className="flex gap-2 md:gap-3">
               <Input
                 id="color"
                 type="color"
                 value={color}
                 onChange={(e) => setColor(e.target.value)}
                 disabled={loading}
-                className="h-10 w-20"
+                className="h-11 w-20 md:h-10 md:w-20"
               />
               <Input
                 type="text"
                 value={color}
                 onChange={(e) => setColor(e.target.value)}
                 disabled={loading}
-                className="flex-1"
+                className="flex-1 h-11 md:h-10 text-base md:text-sm"
               />
             </div>
           </div>
 
           {/* アイコン */}
           <div className="space-y-2">
-            <Label htmlFor="icon">アイコン</Label>
+            <Label htmlFor="icon" className="text-sm md:text-base font-medium">アイコン</Label>
             <Select value={icon} onValueChange={(value) => value && setIcon(value)}>
-              <SelectTrigger>
+              <SelectTrigger className="h-11 md:h-10 text-base md:text-sm">
                 <SelectValue>
                   {ICON_OPTIONS.find((opt) => opt.value === icon)?.label || icon}
                 </SelectValue>
               </SelectTrigger>
               <SelectContent>
                 {ICON_OPTIONS.map((option) => (
-                  <SelectItem key={option.value} value={option.value}>
+                  <SelectItem key={option.value} value={option.value} className="text-base md:text-sm py-3 md:py-2">
                     {option.label}
                   </SelectItem>
                 ))}
@@ -268,11 +269,21 @@ export function CategoryModal({
           </div>
 
           {/* フッター */}
-          <DialogFooter>
-            <Button type="button" variant="outline" onClick={onClose} disabled={loading}>
+          <DialogFooter className="flex-col sm:flex-row gap-2 pt-2">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={onClose}
+              disabled={loading}
+              className="w-full sm:w-auto h-11 md:h-10 text-base md:text-sm"
+            >
               キャンセル
             </Button>
-            <Button type="submit" disabled={loading}>
+            <Button
+              type="submit"
+              disabled={loading}
+              className="w-full sm:w-auto h-11 md:h-10 text-base md:text-sm"
+            >
               {loading ? '保存中...' : '保存'}
             </Button>
           </DialogFooter>
