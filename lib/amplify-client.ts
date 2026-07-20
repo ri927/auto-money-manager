@@ -18,8 +18,11 @@ import outputs from '@/amplify_outputs.json';
  * Amplifyの初期設定を実行
  *
  * outputs: バックエンドの設定情報（自動生成されたJSON）
+ * ssr: true - Next.js の SSR（Server-Side Rendering）対応
  */
-Amplify.configure(outputs);
+Amplify.configure(outputs, {
+  ssr: true,
+});
 
 // 設定済みのAmplifyオブジェクトを他のファイルでも使えるようにエクスポート
 export { Amplify };
