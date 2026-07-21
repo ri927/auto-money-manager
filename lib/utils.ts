@@ -29,3 +29,24 @@ import { twMerge } from "tailwind-merge"
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
+
+/**
+ * 金額を日本円形式でフォーマットする関数
+ *
+ * @param amount - フォーマットする金額（数値）
+ * @returns フォーマットされた金額文字列（例: "¥1,000"）
+ *
+ * 使用例:
+ * formatCurrency(1000) → '¥1,000'
+ * formatCurrency(123456) → '¥123,456'
+ * formatCurrency(-5000) → '-¥5,000'
+ */
+export function formatCurrency(amount: number): string {
+  const absAmount = Math.abs(amount);
+  const formatted = new Intl.NumberFormat('ja-JP', {
+    style: 'currency',
+    currency: 'JPY',
+  }).format(absAmount);
+
+  return amount < 0 ? `-${formatted}` : formatted;
+}
