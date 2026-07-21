@@ -25,12 +25,14 @@ import {
   Settings,    // 設定アイコン
   LogOut,      // ログアウトアイコン
   ChevronRight, // 右矢印アイコン
+  Calendar,    // カレンダーアイコン
 } from 'lucide-react';
 
 /**
  * メニュー項目の定義
  */
 const menuItems = [
+  { href: '/dashboard/calendar', label: 'カレンダー', icon: Calendar, description: '日付別の取引確認' },
   { href: '/dashboard/categories', label: 'カテゴリ管理', icon: Tag, description: 'カテゴリの追加・編集' },
   { href: '/dashboard/family', label: '家族グループ', icon: Users, description: 'メンバーの招待・管理' },
   { href: '/dashboard/settings', label: '設定', icon: Settings, description: 'アプリの設定変更' },
