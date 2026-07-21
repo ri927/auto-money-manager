@@ -28,6 +28,8 @@ frontend:
     # 2. ビルド実行
     build:
       commands:
+        # Node.jsのメモリ制限を増やす（デフォルト: 512MB → 4GB）
+        - export NODE_OPTIONS="--max-old-space-size=4096"
         # Next.js アプリケーションのビルド
         - npm run build
 
