@@ -48,7 +48,13 @@ export async function suggestCategory(
 
     const data = await callGraphQLQuery(query, variables);
 
-    const rules = data?.listCategoryRules?.items || [];
+    const rules: Array<{
+      id: string;
+      categoryId: string;
+      keyword: string;
+      priority?: number;
+      isActive: boolean;
+    }> = data?.listCategoryRules?.items || [];
 
     if (rules.length === 0) {
       console.log('有効なCategoryRuleが見つかりませんでした');
@@ -57,7 +63,7 @@ export async function suggestCategory(
 
     // 2. キーワードマッチング（大文字小文字を区別しない）
     const descriptionLower = description.toLowerCase();
-    const matches = rules.filter(rule =>
+    const matches = rules.filter((rule) =>
       descriptionLower.includes(rule.keyword.toLowerCase())
     );
 
