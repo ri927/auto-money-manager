@@ -56,10 +56,7 @@ export const handler: ScheduledHandler = async (event) => {
 
     if (!needsRenewal) {
       console.log('Watchはまだ有効です。更新をスキップします。');
-      return {
-        statusCode: 200,
-        body: JSON.stringify({ message: 'Watch is still valid, skipped renewal' }),
-      };
+      return;
     }
 
     // Watchを更新
@@ -86,15 +83,6 @@ export const handler: ScheduledHandler = async (event) => {
     //   historyId: response.historyId,
     //   expiration: response.expiration,
     // });
-
-    return {
-      statusCode: 200,
-      body: JSON.stringify({
-        message: 'Watch renewed successfully',
-        historyId: response.historyId,
-        expiration: expirationDate.toISOString(),
-      }),
-    };
   } catch (error) {
     console.error('❌ Gmail Watch更新エラー:', error);
 
