@@ -32,10 +32,4 @@ export const gmailWatchRenewal = defineFunction({
   // 注: Amplify Gen 2でスケジュール機能がまだサポートされていないため、
   // デプロイ後にAWSコンソールでEventBridgeルールを手動設定してください
   // schedule: 'rate(1 day)',
-
-  // 外部パッケージを指定（バンドルせずにnode_modulesから読み込む）
-  bundling: {
-    externalModules: ['googleapis', 'google-auth-library'],
-    nodeModules: ['googleapis', 'google-auth-library'],
-  },
 });
