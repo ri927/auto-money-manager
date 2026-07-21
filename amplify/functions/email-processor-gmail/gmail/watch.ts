@@ -6,7 +6,6 @@
  */
 
 import { google, gmail_v1 } from 'googleapis';
-import { OAuth2Client } from 'google-auth-library';
 
 /**
  * Watch設定のレスポンス
@@ -30,7 +29,7 @@ export interface WatchResponse {
  * @returns Watch設定のレスポンス
  */
 export async function setupWatch(
-  auth: OAuth2Client,
+  auth: InstanceType<typeof google.auth.OAuth2>,
   topicName: string
 ): Promise<WatchResponse> {
   const gmail = google.gmail({ version: 'v1', auth });
@@ -74,7 +73,7 @@ export async function setupWatch(
  *
  * @param auth OAuth2クライアント
  */
-export async function stopWatch(auth: OAuth2Client): Promise<void> {
+export async function stopWatch(auth: InstanceType<typeof google.auth.OAuth2>): Promise<void> {
   const gmail = google.gmail({ version: 'v1', auth });
 
   try {
@@ -100,7 +99,7 @@ export async function stopWatch(auth: OAuth2Client): Promise<void> {
  * @returns 新しいメッセージIDの配列
  */
 export async function getNewMessages(
-  auth: OAuth2Client,
+  auth: InstanceType<typeof google.auth.OAuth2>,
   startHistoryId: string
 ): Promise<string[]> {
   const gmail = google.gmail({ version: 'v1', auth });

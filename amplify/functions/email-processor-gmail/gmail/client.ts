@@ -5,7 +5,6 @@
  */
 
 import { google, gmail_v1 } from 'googleapis';
-import { OAuth2Client } from 'google-auth-library';
 import { ParsedEmail } from '../../email-processor/parsers/types';
 
 /**
@@ -14,7 +13,7 @@ import { ParsedEmail } from '../../email-processor/parsers/types';
 export class GmailClient {
   private gmail: gmail_v1.Gmail;
 
-  constructor(auth: OAuth2Client) {
+  constructor(auth: InstanceType<typeof google.auth.OAuth2>) {
     this.gmail = google.gmail({ version: 'v1', auth });
   }
 
