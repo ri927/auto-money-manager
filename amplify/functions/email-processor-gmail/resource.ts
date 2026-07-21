@@ -29,7 +29,14 @@ export const emailProcessorGmail = defineFunction({
   },
   // 外部パッケージを指定（バンドルせずにnode_modulesから読み込む）
   bundling: {
-    externalModules: ['googleapis', 'google-auth-library'],
+    externalModules: [
+      'googleapis',
+      'google-auth-library',
+      '@aws-sdk/signature-v4',
+      '@aws-sdk/protocol-http',
+      '@aws-crypto/sha256-js',
+      '@aws-sdk/credential-provider-node',
+    ],
     nodeModules: [
       'googleapis',
       'google-auth-library',
