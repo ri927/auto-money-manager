@@ -6,7 +6,6 @@
  */
 
 import { google } from 'googleapis';
-import { OAuth2Client } from 'google-auth-library';
 import { getGmailCredentials } from '../utils/secrets';
 
 /**
@@ -31,7 +30,7 @@ export interface OAuthConfig {
  * @param config OAuth設定
  * @returns OAuth2クライアント
  */
-export function createOAuth2Client(config: OAuthConfig): OAuth2Client {
+export function createOAuth2Client(config: OAuthConfig) {
   const oauth2Client = new google.auth.OAuth2(
     config.clientId,
     config.clientSecret,
